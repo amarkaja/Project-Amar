@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind : Deployment
+metadata:
+  name: abcapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: abcapp
+  template:
+    metadata:
+      labels:
+        app: abcapp
+    spec:
+      containers:
+        - name: abcapp
+          image: amarkaja/project:latest
+          ports:
+          - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysvc1
+spec:
+  type: NodePort
+  selector:
+    app: abcapp
+  ports:
+  - port: 8081
+    targetPort: 8080
